@@ -15,5 +15,6 @@ Python 3.8
 
 #### 其他链接
 
-##网课分发平台
+### 网课分发平台
+
 https://yellow-stone.tpddns.cn:8000/
