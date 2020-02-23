@@ -3,35 +3,17 @@
 #### 介绍
 Python实现的网课链接获取
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+####开发环境
+Python 3.8
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+下载后双击运行即可
+如有任何bug请拉issue
+或QQ联系434974081
+或邮箱联系2844829687@qq.com
 
-#### 参与贡献
+#### 其他链接
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+##网课分发平台
+https://yellow-stone.tpddns.cn:8000/
