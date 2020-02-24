@@ -29,11 +29,13 @@ import bs4
 import requests
 import urllib3
 from bs4 import BeautifulSoup
-
-print("自动获取当日网课链接程序  Ver:1.4")
-print("BuildWith:Python  Author:2844829687@qq.com")
-
+import sys
 urllib3.disable_warnings()
+
+
+print("自动获取当日网课链接程序  Ver:1.5")
+print("BuildWith:Python  Author:2844829687@qq.com")
+print("")
 
 try:
     print("正在检查更新...")
@@ -41,18 +43,31 @@ try:
     response = requests.get(url=update_url, verify=False)
     ver_latest = response.content.decode('utf-8')
     ver_code = requests.get(update_url, verify=False).status_code
-    ver = "Ver1.4"
+    ver = "Ver1.5"
     #print (ver_code)
     if (ver_code == 404):
         print("无法连接服务器,请检查网络或联系开发者")
+        print("")
     elif (ver >= ver_latest):
         print("当前已是最新版:", ver_latest)
+        print("")
     elif (ver < ver_latest):
         print("当前有可用更新:", ver_latest)
+        print("")
+        print("正在下载最新版本:", ver_latest)
+        download_url = 'https://yellow-stone.tpddns.cn:8000/.%E7%BD%91%E8%AF%BE%E9%93%BE%E6%8E%A5%E8%8E%B7%E5%8F%96%E5%99%A8/%E7%BD%91%E8%AF%BE%E9%93%BE%E6%8E%A5%E8%8E%B7%E5%8F%96%E5%99%A8_' + ver_latest + '.exe'
+        download = requests.get(download_url, verify=False)
+        with open("网课链接获取器_" + ver_latest + ".exe", "wb") as code:
+            code.write(download.content)
+        print("最新版:", ver_latest,"已下载")
+        print("")
+        
     else:
         print("检查更新异常,请向开发者反馈")
+        print("")
 except:
-    print("检查更新失败")
+    print("检查更新失败,未知错误,请联系开发者")
+    print("")
 
 
 page_url = "https://mp.weixin.qq.com/s/XaGTbzYT1VuUMB6y3V-_nQ"
@@ -102,6 +117,7 @@ classes_qrcodes = clsasses_html_clear.find('div', id="js_content")
 all_img_tag = classes_qrcodes('img')
 
 print("今日课程列表:")
+print("")
 
 for i in range(7):
     qrcode_url = all_img_tag[i+1]['data-src']
@@ -125,5 +141,6 @@ for i in range(7):
     title = title_list[0]
 
     print(title, ':', (eval('real_url_' + str(i+1))))
+
 
 input("按回车退出")
