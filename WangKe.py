@@ -26,14 +26,18 @@
 '''
 import re
 import bs4
+import sys
 import requests
 import urllib3
 from bs4 import BeautifulSoup
 import sys
+import os
+import webbrowser
 urllib3.disable_warnings()
 
 
-print("自动获取当日网课链接程序  Ver:1.5")
+
+print("自动获取当日网课链接程序  Ver:1.6")
 print("BuildWith:Python  Author:2844829687@qq.com")
 print("")
 
@@ -43,7 +47,7 @@ try:
     response = requests.get(url=update_url, verify=False)
     ver_latest = response.content.decode('utf-8')
     ver_code = requests.get(update_url, verify=False).status_code
-    ver = "Ver1.5"
+    ver = "Ver1.6"
     #print (ver_code)
     if (ver_code == 404):
         print("无法连接服务器,请检查网络或联系开发者")
@@ -61,7 +65,7 @@ try:
             code.write(download.content)
         print("最新版:", ver_latest,"已下载")
         print("")
-        
+        sys.exit()
     else:
         print("检查更新异常,请向开发者反馈")
         print("")
@@ -69,9 +73,54 @@ except:
     print("检查更新失败,未知错误,请联系开发者")
     print("")
 
+try:
+    os.remove("网课链接获取器_Ver1.5.exe")
+except:
+    pass
+
+try:
+    output = sys.argv[1]
+    if (output=="--output"):
+        output_file = open("OutPut.txt", 'w+', encoding="utf-8")
+        print ("本次将会将结果输出至OutPut.txt")
+        print("")
+except:
+    pass
+
 
 page_url = "https://mp.weixin.qq.com/s/XaGTbzYT1VuUMB6y3V-_nQ"
 cli_url = "https://cli.im/Api/Browser/deqr"
+real_url_1 = ""
+real_url_2 = ""
+real_url_3 = ""
+real_url_4 = ""
+real_url_5 = ""
+real_url_6 = ""
+real_url_7 = ""
+
+
+
+
+def style(str):
+    str = str.replace("第一","第1")
+    str = str.replace("第二","第2")
+    str = str.replace("第三","第3")
+    str = str.replace("第四","第4")
+    str = str.replace("第五","第5")
+    str = str.replace("第六","第6")
+    str = str.replace("第七","第7")
+    str = str.replace("第八","第8")
+    str = str.replace("第九","第9")
+    str = str.replace("政治第","政治 第")
+    str = str.replace("历史第","历史 第")
+    str = str.replace("地理第","地理 第")
+    str = str.replace("生物第","生物 第")
+    str = str.replace("数学第","数学 第")
+    str = str.replace("语文第","语文 第")
+    str = str.replace("英语第","英语 第")
+    str = str.replace("化学第","化学 第")
+    str = str.replace("物理第","物理 第")
+    return str
 
 
 def qrcode(qrcode):
@@ -119,6 +168,8 @@ all_img_tag = classes_qrcodes('img')
 print("今日课程列表:")
 print("")
 
+titles_list = list()
+
 for i in range(7):
     qrcode_url = all_img_tag[i+1]['data-src']
     exec('qrcode_' + str(i+1) + ' = ' + '"'+str(qrcode_url)+'"')
@@ -136,11 +187,68 @@ for i in range(7):
 
     title_rule = re.compile(r'<title>(.*?)</title>', re.S)
 
-    title_list = re.findall(title_rule, vedio_html)
+    title_find_list = re.findall(title_rule, vedio_html)
 
-    title = title_list[0]
+    title = style(title_find_list[0])
 
-    print(title, ':', (eval('real_url_' + str(i+1))))
+    out_finally = title + ' : ' + (eval('real_url_' + str(i+1)))
 
+    #print(title, ':', (eval('real_url_' + str(i+1))))
 
+    print (out_finally)
+
+    titles_list.append(out_finally+"\n")
+    #print (titles_list)
+
+try:
+    output_file.writelines(titles_list)
+    output_file.close()
+except:
+    pass
+
+openbrowser_check_times = 0
+gradecheck_times = 0
+def openbrowser_check():
+    global openbrowser_check_times
+    openbrowser_check_times = openbrowser_check_times + 1
+    print ("")
+    openbrowser = input("是否使用默认浏览器打开链接?(y/n):")
+    if (openbrowser == 'y') or (openbrowser == 'yes') or (openbrowser == 'Y') or (openbrowser == 'YES'):
+        gradecheck_times = 0
+        def gradecheck():
+            grade = input("请输入年级:(7/8/9):")
+            global gradecheck_times
+            gradecheck_times = gradecheck_times + 1
+            if (grade == "7"):
+                webbrowser.open(real_url_1)
+                webbrowser.open(real_url_2)
+            elif (grade == "8"):
+                webbrowser.open(real_url_3)
+                webbrowser.open(real_url_4)
+            elif (grade == "9"):
+                webbrowser.open(real_url_5)
+                webbrowser.open(real_url_6)
+                webbrowser.open(real_url_7)
+            elif (gradecheck_times == 3):
+                print ("")
+                print ("错误次数太多,已取消")
+                sys.exit()
+            else:
+                print ("格式错误,请重新输入")
+                gradecheck()
+        gradecheck()
+    elif (openbrowser == 'n') or (openbrowser == 'no') or (openbrowser == 'N') or (openbrowser == 'NO'):
+        pass
+    elif (openbrowser_check_times == 3):
+        print ("")
+        print ("错误次数太多,已取消")
+        sys.exit()
+    else:
+        print ("格式错误,请重新输入")
+        openbrowser_check()
+
+openbrowser_check()
+
+print("")
 input("按回车退出")
+sys.exit()
